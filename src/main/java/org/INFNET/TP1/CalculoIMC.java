@@ -24,7 +24,7 @@ SOFTWARE.
 
 import java.util.Scanner;
 
-class CalculoIMC {
+public class CalculoIMC {
     public static String classificarIMC(double imc) {
         if (imc < 16.0) {
             return "Magreza grave";
@@ -53,6 +53,8 @@ class CalculoIMC {
     }
 
     public static double calcularPeso(double peso, double altura) {
+        if (peso < 35 || peso > 250) throw new IllegalArgumentException("Peso inválido, peso deve ser entre 35 e 250 quilogramas.");
+        if (altura < 1.40 || altura > 2.20) throw new IllegalArgumentException("Altura inválida, altura deve ser entre 1.40 e 2.20 metros.");
         return peso / (altura * altura);
     }
 
