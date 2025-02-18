@@ -88,4 +88,10 @@ public class CalculoIMCTest {
     Arbitrary<Double> pesosExtremos() {
         return Arbitraries.of(10.0, 9.0, -5.0, 500.0, 5000000.0, 99999.0, 30000.0, 5999999.0, 333333.0, -55555.0, 5.0, 0.1);  // Valores incomuns de altura
     }
+
+    @Property
+    void testIMCComValoresAleatorios(@ForAll double peso, @ForAll double altura) {
+        double imc = CalculoIMC.calcularPeso(peso, altura);
+        assertTrue(imc >= 0);
+    }
 }
