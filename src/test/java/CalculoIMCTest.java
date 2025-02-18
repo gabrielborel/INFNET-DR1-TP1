@@ -1,6 +1,5 @@
 import net.jqwik.api.Property;
 import net.jqwik.api.constraints.DoubleRange;
-import net.jqwik.api.constraints.Positive;
 import org.INFNET.TP1.CalculoIMC;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -72,4 +71,21 @@ public class CalculoIMCTest {
         assertTrue(imc >= 0);
     }
 
+
+    @Test
+    void TestaIMCComValoresExtremos() {
+        double peso = pesosExtremos().sample();
+        double altura = alturasExtremas().sample();
+        assertThrows(IllegalArgumentException.class, () -> CalculoIMC.calcularPeso(peso, altura));
+    }
+
+    @Provide
+    Arbitrary<Double> alturasExtremas() {
+        return Arbitraries.of(0.5, 3.0, 5.0, 9.0, 300000000.0, 0.0, 0.1, 9999.0, 99999999999999999.0, -5.1, 5.3, 39.5);  // Valores incomuns de altura
+    }
+
+    @Provide
+    Arbitrary<Double> pesosExtremos() {
+        return Arbitraries.of(10.0, 9.0, -5.0, 500.0, 5000000.0, 99999.0, 30000.0, 5999999.0, 333333.0, -55555.0, 5.0, 0.1);  // Valores incomuns de altura
+    }
 }
