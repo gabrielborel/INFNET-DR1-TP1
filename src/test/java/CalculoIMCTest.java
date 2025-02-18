@@ -107,4 +107,12 @@ public class CalculoIMCTest {
             assertEquals(22.86, resultado, 0.01);
         }
     }
+
+    @Example
+    void TestaIMCComCasosEspecíficos() {
+        double imc = CalculoIMC.calcularPeso(70.0, 1.75);
+        assertTrue(imc >= 0);
+
+        assertThrows(IllegalArgumentException.class, () -> CalculoIMC.calcularPeso(-70.0, 1.75));
+    }
 }
