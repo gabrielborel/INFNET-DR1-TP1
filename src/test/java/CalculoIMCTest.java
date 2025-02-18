@@ -1,6 +1,10 @@
+import net.jqwik.api.Property;
+import net.jqwik.api.constraints.DoubleRange;
+import net.jqwik.api.constraints.Positive;
 import org.INFNET.TP1.CalculoIMC;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import net.jqwik.api.*;
 
 public class CalculoIMCTest {
     @Test
@@ -58,4 +62,14 @@ public class CalculoIMCTest {
         assertThrows(IllegalArgumentException.class, () -> CalculoIMC.calcularPeso(150.00, 3.00));
         assertThrows(IllegalArgumentException.class, () -> CalculoIMC.calcularPeso(500.00, 2.00));
     }
+
+    @Property
+    void TestaIMCNuncaDeveSerNegativo(
+            @ForAll @DoubleRange(min = 35, max = 250) double peso,
+            @ForAll @DoubleRange(min = 1.40, max = 2.20) double altura
+    ) {
+        double imc = CalculoIMC.calcularPeso(peso, altura);
+        assertTrue(imc >= 0);
+    }
+
 }
