@@ -4,6 +4,9 @@ import org.INFNET.TP1.CalculoIMC;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import net.jqwik.api.*;
+import org.mockito.MockedStatic;
+
+import static org.mockito.Mockito.*;
 
 public class CalculoIMCTest {
     @Test
@@ -90,8 +93,18 @@ public class CalculoIMCTest {
     }
 
     @Property
-    void testIMCComValoresAleatorios(@ForAll double peso, @ForAll double altura) {
+    void TestaIMCComValoresAleatorios(@ForAll double peso, @ForAll double altura) {
         double imc = CalculoIMC.calcularPeso(peso, altura);
         assertTrue(imc >= 0);
+    }
+
+    @Test
+    void TestaCalculoIMCComMock() {
+        try (MockedStatic<CalculoIMC> mockedStatic = mockStatic(CalculoIMC.class)) {
+            mockedStatic.when(() -> CalculoIMC.calcularPeso(70.0, 1.75)).thenReturn(22.86);
+
+            double resultado = CalculoIMC.calcularPeso(70.0, 1.75);
+            assertEquals(22.86, resultado, 0.01);
+        }
     }
 }
